@@ -20,7 +20,19 @@ class UsersController {
         const { name } = req.body;
 
         const user = await User.create({name: name});
-        res.send(user);
+        res.status(200).send(user);
+    }
+
+    static async remove(req: Request, res: Response) {
+        const { id } = req.params;
+        const user = await User.findByPk(Number(id));
+        if (user) {
+            user?.destroy();
+        } else {
+            res.status(404).json({messsage: 'Usuário não encontrado'});
+        }
+
+        res.status(204).send();
     }
 
 }
