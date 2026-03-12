@@ -31,7 +31,7 @@ class UsersController {
         return res.status(400).json({ message: 'Sobrenome é obrigatório!' });
     }
 
-    const user = await User.create({ name: name, email: email });
+    const user = await User.create({ name: name, email: email, lastName });
     return res.status(200).send(user);
   }
 
@@ -49,13 +49,14 @@ class UsersController {
 
   static async update(req: Request, res: Response) {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const { name, email, lastName } = req.body;
 
     const user = await User.findByPk(Number(id));
     if (user) {
       await user.update({
         name: name,
-        email: email
+        email: email,
+        lastName
       });
 
       res.status(200).send(user);
